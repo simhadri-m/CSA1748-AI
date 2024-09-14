@@ -1,0 +1,42 @@
+import math
+
+# A utility function to evaluate the score of a leaf node
+def evaluate_leaf_node(node):
+    return node
+
+# Alpha-beta pruning function
+def alpha_beta_pruning(depth, node_index, maximizing_player, values, alpha, beta):
+    # If we reach a leaf node, return its value
+    if depth == 3:
+        return values[node_index]
+
+    if maximizing_player:
+        max_eval = -math.inf
+        for i in range(2):  # Each node has two children
+            eval = alpha_beta_pruning(depth + 1, node_index * 2 + i, False, values, alpha, beta)
+            max_eval = max(max_eval, eval)
+            alpha = max(alpha, eval)
+            if beta <= alpha:
+                break  # Beta cut-off
+        return max_eval
+    else:
+        min_eval = math.inf
+        for i in range(2):
+            eval = alpha_beta_pruning(depth + 1, node_index * 2 + i, True, values, alpha, beta)
+            min_eval = min(min_eval, eval)
+            beta = min(beta, eval)
+            if beta <= alpha:
+                break  # Alpha cut-off
+        return min_eval
+
+# Example values at the leaf nodes of a binary tree
+values = [3, 5, 6, 9, 1, 2, 0, -1]
+
+# Initial values of alpha and beta
+alpha = -math.inf
+beta = math.inf
+
+# Start the alpha-beta pruning from the root (depth 0, node 0)
+result = alpha_beta_pruning(0, 0, True, values, alpha, beta)
+
+print("The optimal value is:", result)

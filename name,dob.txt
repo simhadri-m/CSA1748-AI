@@ -1,0 +1,28 @@
+% Facts: name(Name, DateOfBirth).
+% Format for DateOfBirth: dob(Year, Month, Day)
+
+% Example entries
+name('Alice', dob(1990, 5, 23)).
+name('Bob', dob(1985, 10, 12)).
+name('Charlie', dob(1992, 8, 7)).
+name('Diana', dob(1988, 12, 30)).
+name('Eve', dob(1995, 3, 15)).
+
+% Rule to find a person by name
+find_person(Name, dob(Year, Month, Day)) :-
+    name(Name, dob(Year, Month, Day)).
+
+% Rule to find all people born in a specific year
+born_in_year(Year, Name) :-
+    name(Name, dob(Year, _, _)).
+
+% Rule to find all people born in a specific month
+born_in_month(Month, Name) :-
+    name(Name, dob(_, Month, _)).
+
+% Rule to list all people in the database
+list_people :-
+    name(Name, dob(Year, Month, Day)),
+    format('Name: ~w, DOB: ~d-~d-~d~n', [Name, Year, Month, Day]),
+    fail.
+list_people.
